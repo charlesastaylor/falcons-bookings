@@ -1,0 +1,2 @@
+FLASK_APP=falconsbookings.py
+FLASK_ENV=development
