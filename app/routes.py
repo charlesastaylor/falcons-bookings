@@ -9,7 +9,7 @@ from app.models import Session, User
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = BookSessionForm()
-    next_session = Session.query.order_by(Session.date.desc()).first()
+    next_session = Session.next_session()
     new_user = False
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()

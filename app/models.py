@@ -1,6 +1,9 @@
+from datetime import datetime
+
 from app import db
 
 
+# TODO: Should probably be called users_sessions
 users = db.Table('users', db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
                  db.Column('session_id', db.Integer, db.ForeignKey('session.id'), primary_key=True))
 
@@ -29,3 +32,16 @@ class Session(db.Model):
 
     def __repr__(self):
         return f'<Session {self.date}>'
+
+    @staticmethod
+    def next_session():
+        sessions = Session.query.order_by(Session.date.desc()).all()
+        for i, s in enumerate(sessions):
+            if s.date < datetime.now():
+                if i == 0:
+                    # Edge case - all sessions in past
+                    return None
+                else:
+                    return sessions[i-1]
+        # Edge case - all sessions in future
+        return sessions[-1]
