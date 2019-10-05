@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, flash
+from flask_security import login_required
 
 from app import app, db
 from app.forms import BookSessionForm

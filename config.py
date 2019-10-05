@@ -12,3 +12,6 @@ class Config:
 
     # Flask-Admin
     FLASK_ADMIN_SWATCH = 'slate'
+
+    # Flask-Security
+    SECURITY_PASSWORD_SALT = os.environ.get('SALT') or 'super-secret-salt'

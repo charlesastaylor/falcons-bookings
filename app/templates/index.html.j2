@@ -4,7 +4,7 @@
 <hr>
 <h2>The next session will be {{ next_session.date }} </h2>
 <h3>{{ next_session.spaces }} spaces remaining</h3>
-<form action="" method="post" novalidate>
+{# <form action="" method="post" novalidate>
   {{ form.hidden_tag() }}
   <p>
     {{ form.email.label }}: {{ form.email(size=32) }}
@@ -20,5 +20,5 @@
     </p>
   {% endif %}
   <p>{{ form.submit() }}</p>
-</form>
+</form> #}
 {% endblock content %}
