@@ -1,0 +1,9 @@
+{% extends "base.html.j2" %}
+{% block content %}
+<h1>User: {{ current_user.first_name }} {{ current_user.surname }}</h1>
+<p>Roles:
+{% for role in current_user.roles %}
+  {{ role.name }}
+{% endfor %}
+</p>
+{% endblock content %}

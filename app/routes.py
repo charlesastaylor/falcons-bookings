@@ -43,3 +43,9 @@ def index():
 
     # TODO: next session wont always be most recent in time
     return render_template("index.html.j2", form=form, next_session=next_session, new_user=new_user)
+
+
+@app.route('/profile')
+@login_required
+def user_profile():
+    return render_template('profile.html.j2')

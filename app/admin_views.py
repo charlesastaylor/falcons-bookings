@@ -4,7 +4,7 @@ from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 
 from app import admin, db
-from app.models import User, Session, Role
+from app.models import User, Session, Role, UserSession
 
 
 class SecuredAdminIndexView(AdminIndexView):
@@ -42,14 +42,20 @@ class UserView(SecuredModelView):
 
 
 class SessionView(SecuredModelView):
-    column_list = (Session.date, Session.limit, 'users')
-    # column_hide_backrefs = False
+    column_list = (Session.date, Session.limit,
+                   Session.location, 'users')
+    # form_columns = ('date', 'limit', 'location',)
+    # inline_models = ((UserSession, {
+    #     'form_colums': ('id', 'user', 'booked', 'attended', 'paid',)
+    # }),)
 
 
 class RoleView(SecuredModelView):
     pass
 
+
     # Flask Admin Views
 admin.add_view(UserView(User, db.session))
 admin.add_view(SessionView(Session, db.session))
 admin.add_view(RoleView(Role, db.session))
+admin.add_view(SecuredModelView(UserSession, db.session))
