@@ -8,6 +8,7 @@
 Login/Register to view
 Date/Session Selector - Show Date, Time, Location, Cost
 User roles (members have early booking, different costs per age group, only 2nd squad see 2nd squad sessions and games etc.
+Squad members see the sessions 24hours before everyone else. For a a Monday session could book the Sunday from 7pm a week in advance, so would see two
 
 > **User Account**:
 Show Current Bookings
