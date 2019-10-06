@@ -20,3 +20,7 @@ Allow admin override post session (not signed up in advance)
 Confirm attendance & payment amount
 Add/Remove Sessions
 Re-Occurring sessions, link to google cal?
+
+### TODO:
+- [ ] Canel bookings up to 3 hours before session
+- [ ] Waiting list once session full -> email notification if someone cancels
