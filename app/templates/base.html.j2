@@ -1,44 +1,100 @@
+{% set color = {
+  'primary': 'darken-1 red',
+  'secondary': 'darken-4 red'
+} %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   {%- block head %}
     <title>{{ title + ' | ' if title else '' }}Falcons Bookings</title>
     {%- block metas %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {%- endblock metas %}
 
     {%- block styles %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="{{ url_for('static', filename='css/falconsbookings.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
     {%- endblock styles %}
 
   {%- endblock head %}
 </head>
 <body>
 {% block body -%}
+<header>
   {% block navbar %}
-  <nav>
-    <ul>
-      <li><a href="{{ url_for('index')}}">Home</a></li>
-      {% if current_user.is_authenticated %}
-        {% if current_user.has_role('admin') %}
-          <li><a href="{{ url_for('admin.index') }}">Admin</a></li>      
-        {% endif %}  
-        <li><a href="{{ url_for('user_profile') }}">{{ current_user.first_name }}</a></li>      
-        <li><a href="{{ url_for_security('logout')}}">Logout</a></li>      
-      {% else %}
-      <li><a href="{{ url_for_security('login')}}">Login</a></li>
-      <li><a href="{{ url_for_security('register')}}">Register</a></li>
-      {% endif %}
-    </ul>
+  <nav class="darken-4 grey" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="{{ url_for('index') }}" class="brand-logo">falcons bookings</a>
+      <ul class="right hide-on-med-and-down">
+        {% include "_navbar.html.j2" %}
+      </ul>
+
+      <ul id="nav-mobile" class="sidenav">
+        {% include "_navbar.html.j2" %}
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
   </nav>
   {%- endblock navbar %}
+</header>
+<main>
   {% block content -%}
+  <h1>Default Content</h1>
+  {%- endblock content %}
 
   {% include "_messages.html.j2" %}
-  {%- endblock content %}
-  {% block scripts %}
-  {%- endblock scripts %}
+</main>
+
+{% block footer %}
+<footer class="page-footer {{ color.primary }}">
+  <div class="container">
+    <div class="row">
+      <div class="col l8 s12">
+        <h5 class="white-text">About Us</h5>
+        <p class="grey-text text-lighten-4"><a class="red-text text-lighten-3" href="http://www.northamptonfalcons.co.uk">Northampton Falcons</a> Basketball Club is a local club offering the opportunity for players of all levels of fitness and abilities to train and play basketball in a relaxed and fun atmosphere.</p>
+        <p class="grey-text text-lighten-4">Use <a class="red-text text-lighten-3" href="http://www.northamptonfalcons.co.uk"> faclons bookings</a> to keep informed about upcoming training sessions and book your spot to come play!</p>
+
+
+      </div>
+      {# <div class="col l3 s12">
+        <h5 class="white-text">Settings</h5>
+        <ul>
+          <li><a class="white-text" href="#!">Link 1</a></li>
+          <li><a class="white-text" href="#!">Link 2</a></li>
+          <li><a class="white-text" href="#!">Link 3</a></li>
+          <li><a class="white-text" href="#!">Link 4</a></li>
+        </ul>
+      </div> #}
+      <div class="col l3 offset-l1 s12">
+        <h5 class="white-text">Connect</h5>
+        <ul>
+          <li><a class="white-text" href="https://www.facebook.com/northamptonfalcons">Facebook</a></li>
+          <li><a class="white-text" href="https://www.instagram.com/northamptonfalcons/">Instagram</a></li>
+          <li><a class="white-text" href="mailto:contact@northamptonfalcons.co.uk">Email</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+    Made by <a class="red-text text-lighten-3" href="mailto:charlesastaylor@gmail.com">Charles</a>
+    <span class="right">© {{ now.year }} Copyright <a class="red-text text-lighten-3" href="http://www.northamptonfalcons.co.uk">Northampton Falcons</a></span>
+    </div>
+  </div>
+</footer>
+{% endblock footer %}
+
+{% block scripts %}
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{{ url_for('static', filename='js/falconsbookings.js') }}"></script>
+{%- endblock scripts %}
+
 {% endblock body %}
 </body>
 </html>

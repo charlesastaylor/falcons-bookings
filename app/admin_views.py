@@ -34,7 +34,7 @@ class SecuredModelView(ModelView):
 
 class UserView(SecuredModelView):
     # column_hide_backrefs = False
-    column_list = ('email', 'first_name', 'surname',
+    column_list = ('email', 'first_name', 'surname', 'credit',
                    'roles', 'active', 'confirmed_at')
 
     # def is_accessible(self):
@@ -52,7 +52,6 @@ class SessionView(SecuredModelView):
 
 class RoleView(SecuredModelView):
     pass
-
 
     # Flask Admin Views
 admin.add_view(UserView(User, db.session))

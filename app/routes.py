@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import render_template, redirect, url_for, flash
 from flask_security import login_required
 
@@ -5,6 +7,10 @@ from app import app, db
 from app.forms import BookSessionForm
 from app.models import Session, User
 
+
+@app.context_processor
+def inject_now():
+    return {'now': datetime.utcnow()}
 
 # TODO: route logic needs tidying up
 @app.route('/', methods=['GET', 'POST'])

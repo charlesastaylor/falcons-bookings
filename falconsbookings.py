@@ -20,3 +20,12 @@ def setup_roles():
 
 
 app.cli.add_command(setup_cli)
+
+
+@app.cli.command('mail-server')
+def start_mail_server():
+    import smtpd
+    import asyncore
+    server = smtpd.DebuggingServer(('localhost', 8025), None)
+    print("Debug smtpd mail server started")
+    asyncore.loop()

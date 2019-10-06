@@ -29,7 +29,7 @@ security = Security(app, user_datastore, register_form=MyRegisterForm)
 
 @app.before_first_request
 def setup_roles():
-    default_roles = ['admin', 'member', 'squad_1', 'squad_2']
+    default_roles = ['admin', 'member', 'squad_1', 'squad_2', 'u18']
     for role in default_roles:
         user_datastore.find_or_create_role(role)
     db.session.commit()

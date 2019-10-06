@@ -17,9 +17,13 @@ class Config:
     SECURITY_PASSWORD_SALT = os.environ.get('SALT') or 'super-secret-salt'
     SECURITY_REGISTERABLE = True
     SECURITY_CONFIRMABLE = False
-
     # fixes bug with flask security. ref https://github.com/mattupstate/flask-security/issues/685#ref-commit-241acf2
     SECURITY_EMAIL_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or 'debug'
+    SECURITY_MSG_INVALID_PASSWORD = ("Invalid username or password", "error")
+    SECURITY_MSG_PASSWORD_NOT_PROVIDED = (
+        "Invalid username or password", "error")
+    SECURITY_MSG_USER_DOES_NOT_EXIST = (
+        "Invalid username or password", "error")
 
     # Flask-Mail
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
