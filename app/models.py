@@ -22,6 +22,14 @@ class Role(db.Model, RoleMixin):
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
+    @property
+    def display_name(self):
+        if self.name == "squad_1":
+            return "1st Team"
+        if self.name == "squad_2":
+            return "2nd Team"
+        return self.name
+
     def __repr__(self):
         return f'<Role {self.name}>'
 

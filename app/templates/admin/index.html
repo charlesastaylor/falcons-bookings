@@ -1,5 +1,8 @@
 {% extends "admin/master.html" %}
 
 {% block body %}
-<p>Hello</p>
+<h1>Falcons Bookings Admin</h1>
+<p><strong>Warning:</strong> only use if you know what you're doing or risk breaking stuff.</p>
+<p>Primarily to be used while debugging, actual site admin stuff will have nicer interface</p>
+<a class="btn" href="{{ url_for('index') }}">Go back</a>
 {% endblock body %}

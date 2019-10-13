@@ -33,9 +33,13 @@ class SecuredModelView(ModelView):
 
 
 class UserView(SecuredModelView):
-    # column_hide_backrefs = False
+    can_create = False
     column_list = ('email', 'first_name', 'surname', 'credit',
                    'roles', 'active', 'confirmed_at')
+    form_excluded_columns = ('password', 'confirmed_at')
+    form_columns = ('email', 'first_name', 'surname',
+                    'credit', 'active', 'roles', 'sessions')
+    # column_editable_list = ('first_name', 'surname', 'credit', 'active')
 
     # def is_accessible(self):
     #     return current_user.is_authenticated
@@ -44,6 +48,8 @@ class UserView(SecuredModelView):
 class SessionView(SecuredModelView):
     column_list = (Session.date, Session.limit,
                    Session.location, 'users')
+    can_view_details = True
+
     # form_columns = ('date', 'limit', 'location',)
     # inline_models = ((UserSession, {
     #     'form_colums': ('id', 'user', 'booked', 'attended', 'paid',)
@@ -52,6 +58,7 @@ class SessionView(SecuredModelView):
 
 class RoleView(SecuredModelView):
     pass
+
 
     # Flask Admin Views
 admin.add_view(UserView(User, db.session))
