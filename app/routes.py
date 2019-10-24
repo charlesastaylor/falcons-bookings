@@ -53,6 +53,7 @@ def test():
     from flask_mail import Message
     from app import mail
     msg = Message("Hello",
+                  sender="admin@bookings.northamptonfalcons.co.uk",
                   recipients=["charlesastaylor@gmail.com"])
     msg.body = "Testing 1 2 3"
     mail.send(msg)

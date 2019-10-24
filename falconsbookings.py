@@ -35,7 +35,6 @@ def start_mail_server():
 @app.cli.command('mail-test')
 def send_test_email():
     msg = Message("Hello",
-                  sender="from@example.com",
                   recipients=["charlesastaylor@gmail.com"])
     msg.body = "Testing 1 2 3"
     mail.send(msg)
