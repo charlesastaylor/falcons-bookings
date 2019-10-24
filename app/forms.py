@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_security.forms import RegisterForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Email
+from wtforms import StringField, SubmitField, HiddenField
+from wtforms.validators import DataRequired, Email, NumberRange, InputRequired
 
 
 class MyRegisterForm(RegisterForm):
@@ -10,7 +10,6 @@ class MyRegisterForm(RegisterForm):
 
 
 class BookSessionForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    first_name = StringField('First Name')
-    surname = StringField('Surname')
+    session_id = HiddenField("session_id", validators=[InputRequired()])
     submit = SubmitField('Book')
+    cancel = SubmitField('Cancel')

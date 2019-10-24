@@ -8,3 +8,18 @@ main {
   flex: 1 0 auto;
 }
 
+.next-session button {
+  position: relative; 
+  bottom: 8px;
+}
+
+/* Helpers */
+.no-mg {
+  margin: 0;
+}
+.no-mg-bot {
+  margin-bottom: 0;
+}
+.no-mg-top {
+  margin-top: 0;
+}

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask_security import UserMixin, RoleMixin
 
@@ -50,6 +50,10 @@ class UserSession(db.Model):
     def __repr__(self):
         return f'<UserSession {self.user}-{self.session}>'
 
+    def __str__(self):
+        """Returns users full name - temp for admin panel"""
+        return f'<{self.user.first_name} {self.user.surname}>'
+
 
 class User(db.Model, UserMixin):
     # Columns required by flask security
@@ -67,6 +71,12 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'<User {self.email}>'
+
+    def is_booked(self, session):
+        for assoc in session.users:
+            if assoc.user == self and assoc.booked:
+                return True
+        return False
 
 
 def default_cost(u18=False):
@@ -105,3 +115,36 @@ class Session(db.Model):
                     return sessions[i-1]
         # Edge case - all sessions in future
         return sessions[-1]
+
+    def can_book(self, user):
+        # TODO: has correct role for sessoin
+        if (self.date - timedelta(weeks=1) < datetime.now() < self.date and
+                self.spaces > 0 and
+                not user.is_booked(self)):
+            return True
+        return False
+
+    def book(self, user):
+        # TODO: if user on session but not booked (waiting list) dont create new assoc
+        if self.can_book(user):
+            assoc = UserSession()
+            assoc.user = user
+            self.users.append(assoc)
+            db.session.commit()
+            return True
+        return False
+
+    def can_cancel(self, user):
+        if (user.is_booked(self) and datetime.now() < self.date - timedelta(hours=3)):
+            return True
+        return False
+
+    def cancel(self, user):
+        if self.can_cancel(user):
+            for assoc in self.users:
+                if assoc.user == user:
+                    break
+            db.session.delete(assoc)
+            db.session.commit()
+            return True
+        return False

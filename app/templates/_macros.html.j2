@@ -1,0 +1,9 @@
+{% macro materialize_submit(submit_field, icon="send", class_="") %}
+<button class="btn waves-effect waves-light {{ class_ }}" 
+        type="submit" 
+        name="{{ submit_field.name }}" 
+        value="_"
+>{{ submit_field.label.text|title }}
+  <i class="material-icons right">{{ icon }}</i>
+</button>
+{% endmacro %}

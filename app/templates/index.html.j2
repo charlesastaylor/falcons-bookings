@@ -1,27 +1,54 @@
 {% extends "base.html.j2" %}
+{% from "_macros.html.j2" import materialize_submit %}
+
 {% block content %}
 <div class="section no-pad-bot" id="index-banner">
   <div class="container">
     <br><br>
     <h1 class="header center {{ color.primary }}-text">Falcons Booking System</h1>
-    <div class="row center">
-      <h5 class="header col s12 light">The next session will be {{ next_session.date }} </h5>
-      <p>{{ next_session.spaces }} spaces remaining</p>
+      <div class="divider"></div>
+    <div class="row">
+      <h4 class="header col s12 light left">Next session:</h4>
     </div>
-    <div class="row center">
+
+    <div class="row">
       {% if current_user.is_authenticated %}
-        <div class="col s12 m6">
-          <div class="card">
-            <div class="card-image">
-              <img src="http://via.placeholder.com/150">
-              <span class="card-title">Card Title</span>
-              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+        {% if next_session %}
+          <div class="col s12 m8 offset-m2 l6 offset-l3">
+            <div class="card hoverable">
               <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                {# TODO: add session type to models #}
+                <span class="card-title">Open Session</span>
+                <p>{{ next_session.date }}</p>
+                <p>{{ next_session.location }}</p>
+                <p>£{{ next_session.cost }}</p>
+              </div>
+              <div class="card-action">
+                <form class="next-session" class="" action="/book" method="post" novalidate>
+                  {{ form.hidden_tag() }}
+                  {{ form.session_id() }}
+                  {% if current_user.is_booked(next_session) %}
+                    You are booked in!
+                    {% if next_session.can_cancel(current_user) %}
+                      {{ materialize_submit(form.cancel, icon="cancel", class_="right grey darken-2") }}
+                    {% else %}
+                      {{ materialize_submit(form.cancel, icon="cancel", class_="right disabled") }}                  
+                    {% endif %}
+                  {% else %}
+                    {{next_session.spaces }} spaces remaining
+                    {% if next_session.can_book(current_user) %}
+                      {{ materialize_submit(form.submit, icon="check_circle", class_="right red darken-2") }} 
+                    {% else %}
+                      {{ materialize_submit(form.submit, icon="check_circle", class_="right disabled") }} 
+                    {% endif %}
+                  {% endif %}
+                </form>
               </div>
             </div>
           </div>
-        </div>
+        {% else %}
+          <p>No upcoming sessions, check back soon!</p>
+        {% endif %}
       {% else %}
         <a href="{{ url_for_security('login') }}" class="btn-large waves-effect waves-light {{ color.primary }}">Login</a> 
         <a href="{{ url_for_security('register') }}" class="btn-large waves-effect waves-light {{ color.primary }}">Register</a>  

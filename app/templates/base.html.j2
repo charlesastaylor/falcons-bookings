@@ -43,8 +43,6 @@
   {% block content -%}
   <h1>Default Content</h1>
   {%- endblock content %}
-
-  {% include "_messages.html.j2" %}
 </main>
 
 {% block footer %}
@@ -94,6 +92,8 @@ crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="{{ url_for('static', filename='js/falconsbookings.js') }}"></script>
 {%- endblock scripts %}
+
+{% include "_messages.html.j2" %}
 
 {% endblock body %}
 </body>

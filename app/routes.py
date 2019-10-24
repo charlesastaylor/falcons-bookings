@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from flask import render_template, redirect, url_for, flash
-from flask_security import login_required
+from flask import render_template, redirect, url_for, flash, abort
+from flask_security import login_required, current_user
 
 from app import app, db
 from app.forms import BookSessionForm
@@ -15,40 +15,38 @@ def inject_now():
 # TODO: route logic needs tidying up
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    form = BookSessionForm()
     next_session = Session.next_session()
-    new_user = False
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        # User already exists
-        if user:
-            if user in next_session.users:
-                flash(
-                    f"Hey {user.first_name}, you have already booked for this session.")
-            else:
-                if next_session.spaces > 0:
-                    next_session.users.append(user)
-                    db.session.commit()
-                    flash(f"Thanks {user.first_name}, you're booked in!")
-                else:
-                    flash(f'Sorry {user.first_name}, the session is full!')
-            return redirect(url_for('index'))
-        # User doesn't exist
-        if form.first_name.data and form.surname.data:
-            user = User(first_name=form.first_name.data,
-                        surname=form.surname.data, email=form.email.data)
-            db.session.add(user)
-            if next_session.spaces > 0:
-                next_session.users.append(user)
-                flash(f"Thanks {user.first_name}, you're booked in!")
-            else:
-                flash(f'Sorry {user.first_name}, the session is full!')
-            db.session.commit()
-            return redirect(url_for('index'))
-        new_user = True
+    form = BookSessionForm(session_id=next_session.id) if next_session else None  # nopep8
+    return render_template("index.html.j2", form=form, next_session=next_session)
 
-    # TODO: next session wont always be most recent in time
-    return render_template("index.html.j2", form=form, next_session=next_session, new_user=new_user)
+
+@app.route('/book', methods=['POST'])
+@login_required
+def book_session():
+    form = BookSessionForm()
+    if form.validate_on_submit():
+        session = Session.query.get_or_404(int(form.session_id.data))
+        if form.submit.data:
+            if session.book(current_user):
+                flash(f"Thanks {current_user.first_name}, you're booked in!")
+            else:
+                # TODO why did booking fail?
+                flash(f"Failed to book")
+            return redirect(url_for('index'))
+        elif form.cancel.data:
+            if session.cancel(current_user):
+                flash(f"Your booking has been cancelled {current_user.first_name}.")  # nopep8
+            else:
+                flash("Failed to cancel")
+            return redirect(url_for('index'))
+    # TODO: handle
+    abort(500)
+
+
+@app.route('/test')
+def test():
+    form = BookSessionForm()
+    return str(vars(form.submit.label))
 
 
 @app.route('/profile')

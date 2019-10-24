@@ -1,7 +1,8 @@
 import click
+from flask_mail import Message
 from flask.cli import AppGroup
 
-from app import app, db, user_datastore
+from app import app, db, user_datastore, mail
 from app.models import User, Role, Session, UserSession
 
 
@@ -29,3 +30,12 @@ def start_mail_server():
     server = smtpd.DebuggingServer(('localhost', 8025), None)
     print("Debug smtpd mail server started")
     asyncore.loop()
+
+
+@app.cli.command('mail-test')
+def send_test_email():
+    msg = Message("Hello",
+                  sender="from@example.com",
+                  recipients=["charlesastaylor@gmail.com"])
+    msg.body = "Testing 1 2 3"
+    mail.send(msg)

@@ -61,5 +61,7 @@ Add/Remove Sessions
 Re-Occurring sessions, link to google cal?
 
 ### TODO:
-- [ ] Canel bookings up to 3 hours before session
+- [x] Canel bookings up to 3 hours before session
+- [x] Toast flash messages
+- [ ] Admin session page
 - [ ] Waiting list once session full -> email notification if someone cancels
