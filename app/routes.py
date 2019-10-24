@@ -45,8 +45,18 @@ def book_session():
 
 @app.route('/test')
 def test():
-    form = BookSessionForm()
-    return str(vars(form.submit.label))
+    s = ""
+    for x in app.config:
+        if x.startswith('MAIL'):
+            s += x + str(type(app.config[x])) + str(app.config[x]) + '\n'
+
+    from flask_mail import Message
+    from app import mail
+    msg = Message("Hello",
+                  recipients=["charlesastaylor@gmail.com"])
+    msg.body = "Testing 1 2 3"
+    mail.send(msg)
+    return s
 
 
 @app.route('/profile')
