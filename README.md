@@ -68,3 +68,4 @@ Re-Occurring sessions, link to google cal?
 - [ ] Admin session page
 - [ ] Waiting list once session full -> email notification if someone cancels
 - [x] Fix python debug server - doesn't work since configuring real servers
+- [ ] favicon
