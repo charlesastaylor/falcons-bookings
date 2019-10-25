@@ -43,23 +43,6 @@ def book_session():
     abort(500)
 
 
-@app.route('/test')
-def test():
-    s = ""
-    for x in app.config:
-        if x.startswith('MAIL'):
-            s += x + str(type(app.config[x])) + str(app.config[x]) + '\n'
-
-    from flask_mail import Message
-    from app import mail
-    msg = Message("Hello",
-                  sender="admin@bookings.northamptonfalcons.co.uk",
-                  recipients=["charlesastaylor@gmail.com"])
-    msg.body = "Testing 1 2 3"
-    mail.send(msg)
-    return s
-
-
 @app.route('/profile')
 @login_required
 def user_profile():

@@ -67,4 +67,4 @@ Re-Occurring sessions, link to google cal?
 - [ ] Send emails on different thread ([flask mega tutorial section](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-x-email-support), [SO question](https://stackoverflow.com/questions/27345291/sending-async-email-with-flask-security))
 - [ ] Admin session page
 - [ ] Waiting list once session full -> email notification if someone cancels
-- [ ] Fix python debug server - doesn't work since configuring real servers
+- [x] Fix python debug server - doesn't work since configuring real servers

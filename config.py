@@ -3,6 +3,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    # Falcons Bookings
+    TEST_EMAIL = os.environ.get('TEST_EMAIL')
+
+    # Flask
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'super-secret-key'
 
     # Flask-SQLAlchemy
