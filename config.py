@@ -18,7 +18,7 @@ class Config:
     SECURITY_REGISTERABLE = True
     SECURITY_CONFIRMABLE = False
     # fixes bug with flask security. ref https://github.com/mattupstate/flask-security/issues/685#ref-commit-241acf2
-    SECURITY_EMAIL_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or 'debug'
+    # SECURITY_EMAIL_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or 'debug'
     SECURITY_MSG_INVALID_PASSWORD = ("Invalid username or password", "error")
     SECURITY_MSG_PASSWORD_NOT_PROVIDED = (
         "Invalid username or password", "error")
@@ -27,9 +27,15 @@ class Config:
 
     # Flask-Mail
     MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
-    MAIL_PORT = int(os.environ.get('MAIL_PORT')) or 8025
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
-    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL') is not None
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or None
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or None
-    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or 'debug'
+    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 8025)
+    # MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
+    # MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL') is not None
+    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or None
+    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or None
+    if os.environ.get('MAIL_DEFAULT_SENDER_NAME'):
+        MAIL_DEFAULT_SENDER = (
+            os.environ.get('MAIL_DEFAULT_SENDER_NAME'),
+            os.environ.get('MAIL_DEFAULT_SENDER')
+        )
+    else:
+        MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER') or 'debug'

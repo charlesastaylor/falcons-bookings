@@ -2,61 +2,58 @@
 {% from "_macros.html.j2" import materialize_submit %}
 
 {% block content %}
-<div class="section no-pad-bot" id="index-banner">
-  <div class="container">
+<div class="container">
+  <div class="section no-pad-bot">
     <br><br>
     <h1 class="header center {{ color.primary }}-text">Falcons Booking System</h1>
-      <div class="divider"></div>
-    <div class="row">
+  </div>
+  <div class="divider"></div>
+  {% if current_user.is_authenticated %}
+    <div class="row section">
       <h4 class="header col s12 light left">Next session:</h4>
-    </div>
-
-    <div class="row">
-      {% if current_user.is_authenticated %}
-        {% if next_session %}
-          <div class="col s12 m8 offset-m2 l6 offset-l3">
-            <div class="card hoverable">
-              <div class="card-content">
-                {# TODO: add session type to models #}
-                <span class="card-title">Open Session</span>
-                <p>{{ next_session.date }}</p>
-                <p>{{ next_session.location }}</p>
-                <p>£{{ next_session.cost }}</p>
-              </div>
-              <div class="card-action">
-                <form class="next-session" class="" action="/book" method="post" novalidate>
-                  {{ form.hidden_tag() }}
-                  {{ form.session_id() }}
-                  {% if current_user.is_booked(next_session) %}
-                    You are booked in!
-                    {% if next_session.can_cancel(current_user) %}
-                      {{ materialize_submit(form.cancel, icon="cancel", class_="right grey darken-2") }}
-                    {% else %}
-                      {{ materialize_submit(form.cancel, icon="cancel", class_="right disabled") }}                  
-                    {% endif %}
+      {% if next_session %}
+        <div class="col s12 m8 offset-m2 l6 offset-l3">
+          <div class="card hoverable">
+            <div class="card-content">
+              {# TODO: add session type to models #}
+              <span class="card-title">Open Session</span>
+              <p>{{ next_session.date }}</p>
+              <p>{{ next_session.location }}</p>
+              <p>£{{ next_session.cost }}</p>
+            </div>
+            <div class="card-action">
+              <form class="next-session" class="" action="/book" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                {{ form.session_id() }}
+                {% if current_user.is_booked(next_session) %}
+                  You are booked in!
+                  {% if next_session.can_cancel(current_user) %}
+                    {{ materialize_submit(form.cancel, icon="cancel", class_="right grey darken-2") }}
                   {% else %}
-                    {{next_session.spaces }} spaces remaining
-                    {% if next_session.can_book(current_user) %}
-                      {{ materialize_submit(form.submit, icon="check_circle", class_="right red darken-2") }} 
-                    {% else %}
-                      {{ materialize_submit(form.submit, icon="check_circle", class_="right disabled") }} 
-                    {% endif %}
+                    {{ materialize_submit(form.cancel, icon="cancel", class_="right disabled") }}                  
                   {% endif %}
-                </form>
-              </div>
+                {% else %}
+                  {{next_session.spaces }} spaces remaining
+                  {% if next_session.can_book(current_user) %}
+                    {{ materialize_submit(form.submit, icon="check_circle", class_="right red darken-2") }} 
+                  {% else %}
+                    {{ materialize_submit(form.submit, icon="check_circle", class_="right disabled") }} 
+                  {% endif %}
+                {% endif %}
+              </form>
             </div>
           </div>
-        {% else %}
-          <p>No upcoming sessions, check back soon!</p>
-        {% endif %}
+        </div>
       {% else %}
-        <a href="{{ url_for_security('login') }}" class="btn-large waves-effect waves-light {{ color.primary }}">Login</a> 
-        <a href="{{ url_for_security('register') }}" class="btn-large waves-effect waves-light {{ color.primary }}">Register</a>  
+        <p>No upcoming sessions, check back soon!</p>
       {% endif %}
     </div>
-    <br><br>
-
-  </div>
+  {% else %}
+    <div class="row center section">
+      <a href="{{ url_for_security('login') }}" class="btn-large waves-effect waves-light {{ color.primary }}">Login</a> 
+      <a href="{{ url_for_security('register') }}" class="btn-large waves-effect waves-light {{ color.primary }}">Register</a>  
+    </div>
+  {% endif %}
 </div>
 {% endblock content %}
 

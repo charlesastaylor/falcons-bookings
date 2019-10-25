@@ -63,5 +63,8 @@ Re-Occurring sessions, link to google cal?
 ### TODO:
 - [x] Canel bookings up to 3 hours before session
 - [x] Toast flash messages
+- [ ] Move todo list/dan's wishlist to trello
+- [ ] Send emails on different thread ([flask mega tutorial section](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-x-email-support), [SO question](https://stackoverflow.com/questions/27345291/sending-async-email-with-flask-security))
 - [ ] Admin session page
 - [ ] Waiting list once session full -> email notification if someone cancels
+- [ ] Fix python debug server - doesn't work since configuring real servers
