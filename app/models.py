@@ -82,7 +82,7 @@ class User(db.Model, UserMixin):
 def default_cost(u18=False):
     # TODO: Create Prices model for Session class gets default prices from
     # TODO: add new models for default prices and lookup instead of hardcoded
-    return 4 if u18 else 6
+    return 4 if u18 else 5
 
 
 class Session(db.Model):
