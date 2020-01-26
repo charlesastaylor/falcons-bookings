@@ -106,6 +106,8 @@ class Session(db.Model):
     @staticmethod
     def next_session():
         sessions = Session.query.order_by(Session.date.desc()).all()
+        if len(sessions) == 0:
+            return None
         for i, s in enumerate(sessions):
             if s.date < datetime.now():
                 if i == 0:
@@ -148,3 +150,7 @@ class Session(db.Model):
             db.session.commit()
             return True
         return False
+
+class Game(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    
